@@ -15,6 +15,7 @@ function createJsOptions() {
     color: true,
     format: "esm",
     platform: "browser",
+    conditions: ["browser", "development"],
     jsx: "automatic",
     jsxDev: true,
   };
