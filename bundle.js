@@ -1,7 +1,8 @@
-import { context } from "esbuild";
+import { build, context } from "esbuild";
+import { parseArgs } from "node:util";
 
-async function watchClientJs() {
-  const ctx = await context({
+function createJsOptions() {
+  return {
     entryPoints: ["./src/main.tsx"],
     entryNames: "[name]",
     outdir: "./docs",
@@ -16,12 +17,11 @@ async function watchClientJs() {
     platform: "browser",
     jsx: "automatic",
     jsxDev: true,
-  });
-  await ctx.watch();
+  };
 }
 
-async function watchCss() {
-  const ctx = await context({
+function createCssOptions() {
+  return {
     entryPoints: [
       "src/style.css",
       {
@@ -40,8 +40,48 @@ async function watchCss() {
     loader: {
       ".woff2": "file",
     },
-  });
-  await ctx.watch();
+  };
 }
 
-await Promise.all([watchClientJs(), watchCss()]);
+const watchJs = async () => {
+  const ctx = await context(createJsOptions());
+  await ctx.watch();
+};
+const watchCss = async () => {
+  const ctx = await context(createCssOptions());
+  await ctx.watch();
+};
+
+const buildJs = async () => {
+  await build(createJsOptions());
+};
+const buildCss = async () => {
+  await build(createCssOptions());
+};
+
+const {
+  values: { watch },
+} = parseArgs({
+  args: process.argv.slice(2),
+  options: {
+    watch: {
+      type: "boolean",
+    },
+  },
+});
+
+if (watch) {
+  Promise.all([watchJs(), watchCss()]).catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+} else {
+  Promise.all([buildJs(), buildCss()])
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    })
+    .then(() => {
+      process.exit(0);
+    });
+}

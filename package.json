@@ -2,7 +2,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "npm run build && npx serve ./docs",
+    "dev": "npx serve ./docs",
     "build": "node bundle.js",
     "watch": "node bundle.js --watch"
   },
