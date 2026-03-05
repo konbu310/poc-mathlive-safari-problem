@@ -1,4 +1,4 @@
-import { convertLatexToMarkup, MathfieldElement } from "mathlive";
+import { convertLatexToMarkup, type MathfieldElement } from "mathlive";
 import { FC, InputEvent, useRef, useState } from "react";
 import { MathField } from "./MathField";
 

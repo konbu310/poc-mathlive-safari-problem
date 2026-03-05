@@ -17,6 +17,7 @@
 .preview-content {
   display: inline-block;
   pointer-events: none;
+  border: none;
 }
 .overlay {
   position: fixed;

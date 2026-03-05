@@ -1,22 +1,5 @@
 import type { MathfieldElement } from "mathlive";
-import React, {
-  DetailedHTMLProps,
-  FC,
-  HTMLAttributes,
-  InputEventHandler,
-  useEffect,
-} from "react";
-
-declare module "react/jsx-runtime" {
-  namespace JSX {
-    interface IntrinsicElements {
-      "math-field": DetailedHTMLProps<
-        HTMLAttributes<MathfieldElement>,
-        MathfieldElement
-      >;
-    }
-  }
-}
+import { FC, InputEventHandler, RefObject, useEffect } from "react";
 
 const showMathKeyboard = () => {
   window.mathVirtualKeyboard.show({ animate: true });
@@ -30,7 +13,7 @@ export const MathField: FC<{
   value: string;
   onInput: InputEventHandler<MathfieldElement>;
   className: string;
-  nodeRef: React.RefObject<MathfieldElement | null>;
+  nodeRef: RefObject<MathfieldElement | null>;
 }> = ({ value, onInput, className, nodeRef }) => {
   useEffect(() => {
     const mf = nodeRef.current;
